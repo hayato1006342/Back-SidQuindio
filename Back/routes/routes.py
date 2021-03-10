@@ -1,11 +1,13 @@
-from controllers import LoginUserControllers, RegistroUserControllers, RecuperacionUserControllers, DetallesUserControllers, CrearAdminControllers, PanelAdminControllers, HistorialUserControllers, AtractivosLugaresControllers, HotelesLugaresControllers
+from Controllers.controllers import LoginUserControllers, RegistroUserControllers, RecuperacionUserControllers, DetallesUserControllers, CrearAdminControllers, PanelAdminControllers, HistorialUserControllers, AtractivosLugaresControllers, HotelesLugaresControllers, PurchasesUserControllers, BringData
 
 user = {
     "login_user": "/api/v01/login", "login_user_controllers": LoginUserControllers.as_view("login_api"),
     "register_user": "/api/v01/registro", "registro_user_controllers": RegistroUserControllers.as_view("register_api"),
     "recovery_user": "/api/v01/recuperacion", "recuperacion_user_controllers": RecuperacionUserControllers.as_view("recodery_api"),
     "details_lug":"/api/v01/detalles","detalles_user_controllers": DetallesUserControllers.as_view("details_api"),
-    "history_user":"/api/v01/historial","historial_user_controllers": HistorialUserControllers.as_view("history_api")
+    "history_user":"/api/v01/historial","historial_user_controllers": HistorialUserControllers.as_view("history_api"),
+    "purchases_user":"/api/v01/compras","purchases_user_controllers": PurchasesUserControllers.as_view("purchases_api"),
+    "sites_user":"/api/v01/sites","sites_user_controllers": BringData.as_view("sites_api")
 }
 
 
