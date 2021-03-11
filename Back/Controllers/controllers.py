@@ -2,6 +2,7 @@ from flask.views import MethodView
 from flask import jsonify, request
 from Models.model import users
 from Models.sites import sites
+from Models.details import details
 from Models.Registro import Registro
 import bcrypt
 import jwt
@@ -82,6 +83,12 @@ class RecuperacionUserControllers(MethodView):
         return jsonify({"": True}), 200
         
 
+class DetallesUsersControllers(MethodView):
+    def get(self,id):
+        cmm = details()
+        cmm.id = int(id)
+        respuesta= cmm.GetDatail()
+        return jsonify(respuesta), 200
 
      
 class DetallesUserControllers(MethodView):
