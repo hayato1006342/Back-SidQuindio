@@ -1,6 +1,9 @@
 from flask.views import MethodView
 from flask import jsonify, request
-from model import users
+from Models.model import users
+from Models.sites import sites
+from Models.details import details
+from Models.Registro import Registro
 import bcrypt
 import jwt
 from config import KEY_TOKEN_AUTH
@@ -12,18 +15,62 @@ import time
 class LoginUserControllers(MethodView):
     def post(self):
         time.sleep(3)
+        Login = Registro()
         content = request.get_json()
-        email = content.get("email")
+        Login.email = content.get("email")
         password = bytes(str(content.get("password")), encoding = 'utf-8')
-        if users.get(email):
-            password_db = users[email]["password"]
-            nombre = users[email]["nombre"]
+        respuesta = Login.get_user()
+        if respuesta != "":
+            password_db = bytes(respuesta[0][4], 'utf-8')
+            nombre = respuesta[0][1]
             if bcrypt.checkpw(password, password_db):
-                encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=10), 'email': email, 'nombre': nombre}, KEY_TOKEN_AUTH , algorithm='HS256')
-                return jsonify({"Status": "Login exitoso", "token": str(encoded_jwt), "nombre": nombre}), 200     
-            return jsonify({"Status": "Login incorrecto 22"}), 400   
+                encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=1000), 'email': respuesta[0][2], 'nombre': respuesta[0][1]}, KEY_TOKEN_AUTH , algorithm='HS256')
+                return jsonify({"Status": "Login exitoso", "token": str(encoded_jwt), "nombre": respuesta[0][1], "rango": respuesta[0][3]}), 200     
+            return jsonify({"Status": "Login incorrecto 22"}), 400
         return jsonify({"Status": "Login incorrecto 11"}), 400
 
+
+class RegistroUserControllers(MethodView):
+    def post(self):
+        time.sleep(3)
+        content = request.get_json()
+        name = content.get("nombre")
+        email = content.get("email")
+        password = content.get("password")
+        validatepassword = content.get("validatepassword")
+        register = Registro()
+        if password == validatepassword:
+            salt = bcrypt.gensalt()
+            register.password = bcrypt.hashpw(bytes(str(password), encoding= 'utf-8'), salt)
+            register.name = name
+            register.email = email
+            respuesta = register.create_user()
+            return jsonify({"Status": "Registro ok",
+                            "password_encriptado": str(register.password),
+                            "password_plano": str(password)}), 200
+
+        return jsonify({"Registro Exitoso": True}), 200
+    
+    def get():
+        pass
+    
+    def put():
+        pass
+
+
+
+class BringData(MethodView):
+    def post(self):
+        pass
+    
+    def get(self):
+        cl = sites()
+        respuesta = cl.get_site()
+        return jsonify(respuesta)
+
+
+
+#------------------------------------------------  Obra negra --------------------------------------#
 
 
 class RecuperacionUserControllers(MethodView):
@@ -36,35 +83,13 @@ class RecuperacionUserControllers(MethodView):
         return jsonify({"": True}), 200
         
 
+class DetallesUsersControllers(MethodView):
+    def get(self,id):
+        cmm = details()
+        cmm.id = int(id)
+        respuesta= cmm.GetDatail()
+        return jsonify(respuesta), 200
 
-class RegistroUserControllers(MethodView):
-    def post(self):
-        time.sleep(3)
-        content = request.get_json()
-        nombre = content.get("nombre")
-        email = content.get("email")
-        password = content.get("password")
-        validatepassword = content.get("validatepassword")
-
-        if password == validatepassword:
-            salt = bcrypt.gensalt()
-            hash_password = bcrypt.hashpw(bytes(str(password), encoding= 'utf-8'), salt)
-
-            users[email] = {"password": hash_password, "email": email, "nombre": nombre}
-            print(users[email])
-            return jsonify({"Status": "Registro ok",
-                            "password_encriptado": str(hash_password),
-                            "password_plano": str(password)}), 200
-
-
-
-        return jsonify({"Registro Exitoso": True}), 200
-    
-    def get():
-        pass
-    
-    def put():
-        pass
      
 class DetallesUserControllers(MethodView):
     def post(self):
