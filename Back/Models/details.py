@@ -9,5 +9,5 @@ class details:
         respuesta = Conexion.search("select * from places where id = %s ",[self.id])
         print(respuesta)
         for i in respuesta:
-            data['sites'].append({'id':i[0],'name':i[1],'img1':i[3],'img2':i[4],'img3':i[5],'price':i[6],'description':i[9]})
+            data['sites'].append({'id':i[0],'name':i[1],'img1':i[4],'img2':i[5],'img3':i[6],'price':i[6],'description':i[11]})
         return data['sites']

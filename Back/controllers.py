@@ -1,6 +1,6 @@
-from flask.views import MethodView
+"""from flask.views import MethodView
 from flask import jsonify, request
-from model import users
+from Models.users import users
 import bcrypt
 import jwt
 from config import KEY_TOKEN_AUTH
@@ -161,3 +161,4 @@ class PurchasesUserControllers(MethodView):
         expiration = content.get("expiration")
         return jsonify({"Mensaje": "Compra realizada" }), 200
 
+"""

@@ -1,4 +1,4 @@
-from Controllers.controllers import LoginUserControllers, RegistroUserControllers, RecuperacionUserControllers, DetallesUserControllers, CrearAdminControllers, PanelAdminControllers, HistorialUserControllers, AtractivosLugaresControllers, HotelesLugaresControllers, PurchasesUserControllers, BringData, DetallesUsersControllers
+from Controllers.controllers import LoginUserControllers, RegistroUserControllers, RecuperacionUserControllers, DetallesUserControllers, Add_site , PanelAdminControllers, HistorialUserControllers, AtractivosLugaresControllers, HotelesLugaresControllers, PurchasesUserControllers, BringData, DetallesUsersControllers
 
 user = {
     "login_user": "/api/v01/login", "login_user_controllers": LoginUserControllers.as_view("login_api"),
@@ -13,7 +13,7 @@ user = {
 
 
 admin = {
-	"create_admin":"/api/v01/crear","crear_admin_controllers": CrearAdminControllers.as_view("create_api"),
+	"create_admin":"/api/v01/crear","crear_admin_controllers": Add_site.as_view("create_api"),
 	"panel_admin":"/api/v01/panel","panel_admin_controllers": PanelAdminControllers.as_view("panel_api")
 }
 
