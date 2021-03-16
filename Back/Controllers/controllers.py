@@ -1,9 +1,9 @@
 from flask.views import MethodView
 from flask import jsonify, request
-from Models.model import users
 from Models.sites import sites
 from Models.details import details
 from Models.Registro import Registro
+from Models.paneladmin import paneladmin
 import bcrypt
 import jwt
 from config import KEY_TOKEN_AUTH
@@ -14,7 +14,6 @@ import time
 
 class LoginUserControllers(MethodView):
     def post(self):
-        time.sleep(3)
         Login = Registro()
         content = request.get_json()
         Login.email = content.get("email")
@@ -24,7 +23,7 @@ class LoginUserControllers(MethodView):
             password_db = bytes(respuesta[0][4], 'utf-8')
             nombre = respuesta[0][1]
             if bcrypt.checkpw(password, password_db):
-                encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=1000), 'email': respuesta[0][2], 'nombre': respuesta[0][1]}, KEY_TOKEN_AUTH , algorithm='HS256')
+                encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=10000), 'email': respuesta[0][2], 'nombre': respuesta[0][1]}, KEY_TOKEN_AUTH , algorithm='HS256')
                 return jsonify({"Status": "Login exitoso", "token": str(encoded_jwt), "nombre": respuesta[0][1], "rango": respuesta[0][3]}), 200     
             return jsonify({"Status": "Login incorrecto 22"}), 400
         return jsonify({"Status": "Login incorrecto 11"}), 400
@@ -32,7 +31,6 @@ class LoginUserControllers(MethodView):
 
 class RegistroUserControllers(MethodView):
     def post(self):
-        time.sleep(3)
         content = request.get_json()
         name = content.get("nombre")
         email = content.get("email")
@@ -68,6 +66,26 @@ class BringData(MethodView):
         respuesta = cl.get_site()
         return jsonify(respuesta)
 
+
+class Add_site(MethodView):
+    def get(self):
+        pass
+
+    def post(self):
+        content = request.get_json()
+        cmm = sites()
+        cmm.name = content.get("name")
+        cmm.type = int(content.get("type"))
+        cmm.img = content.get("img")
+        cmm.imgc1 = content.get("imgc1")
+        cmm.imgc2 = content.get("imgc2")
+        cmm.imgc3 = content.get("imgc3")
+        cmm.prices = int(content.get("prices"))
+        cmm.category = int(content.get("category"))
+        cmm.locate = int(content.get("locate"))
+        cmm.description = content.get("description")
+        respuesta = cmm.add_site()
+        return jsonify(respuesta),200
 
 
 #------------------------------------------------  Obra negra --------------------------------------#
@@ -110,11 +128,6 @@ class DetallesUserControllers(MethodView):
 
 class HistorialUserControllers(MethodView):
     def get(self):
-       time.sleep(3)
-       datos = "ASQ"
-       return jsonify({"datos": datos }), 200
-
-    def get(self):
         if (request.headers.get('Authorization')):
             token = request.headers.get('Authorization').split(" ")
             print("-----------------_", token[1])
@@ -146,20 +159,10 @@ class CrearAdminControllers(MethodView):
 
 class PanelAdminControllers(MethodView):
     def get(self):
-        time.sleep(3)
-        datos = "ASQ"
-        return jsonify({"datos": datos }), 200
+        mm = paneladmin()
+        respuesta = mm.getinfo()
+        return jsonify(respuesta), 200
 
-    def get(self):
-        if (request.headers.get('Authorization')):
-            token = request.headers.get('Authorization').split(" ")
-            print("-----------------_", token[1])
-            try:
-                data = jwt.decode(token[1], KEY_TOKEN_AUTH , algorithms=['HS256'])
-                return jsonify({"Status": "Autorizado por token", "emailextraido": data.get("email")}), 200
-            except:
-                return jsonify({"Status": "TOKEN NO VALIDO"}), 403
-        return jsonify({"Status": "No ha enviado un token"}), 403
 
 class AtractivosLugaresControllers(MethodView):
     def get(self):
