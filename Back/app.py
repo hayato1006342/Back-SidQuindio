@@ -15,6 +15,8 @@ app.add_url_rule(user["register_user"], view_func=user["registro_user_controller
 app.add_url_rule(user["recovery_email_user"], view_func=user["recovery_email_user_controllers"])
 app.add_url_rule(user["recovery_pass"], view_func=user["recovery_pass_controllers"])
 app.add_url_rule(user["modification_pass"], view_func=user["modification_pass_controllers"])
+app.add_url_rule(user["purchase_user"], view_func=user["purchase_user_controllers"])
+app.add_url_rule(user["purchase_history_user"], view_func=user["purchase_history_user_controllers"])
 
 #authentication
 
@@ -25,6 +27,8 @@ app.add_url_rule(places["attractions_user"], view_func=places["attractions_user_
 app.add_url_rule(places["hotels_user"], view_func=places["hotels_user_controllers"])
     #-details
 app.add_url_rule(places["details_site"], view_func=places["details_site_controllers"])
+    #-details prices
+app.add_url_rule(places["details_prices"], view_func=places["details_prices_controllers"])
 
 #filters
     #-attraction
@@ -39,6 +43,11 @@ app.add_url_rule(admin["panel_admin"], view_func=admin["panel_admin_controllers"
 app.add_url_rule(admin["panel_remove"], view_func=admin["panel_remove_controllers"])
 app.add_url_rule(admin["panel_search"], view_func=admin["panel_search_controllers"])
 app.add_url_rule(admin["panel_add_site"], view_func=admin["add_site_controllers"])
+app.add_url_rule(admin["panel_precies"], view_func=admin["panel_precies_controllers"])
+app.add_url_rule(admin["panel_add_precie"], view_func=admin["panel_add_precie_controllers"])
+app.add_url_rule(admin["panel_delete_precie"], view_func=admin["panel_delete_precie_controllers"])
+app.add_url_rule(admin["panel_edit_place"], view_func=admin["panel_edit_place_controllers"])
+app.add_url_rule(admin["panel_set_edit_place"], view_func=admin["panel_set_edit_place_controllers"])
 
 if __name__ == '__main__':
     app.run(debug=True,port=5000)

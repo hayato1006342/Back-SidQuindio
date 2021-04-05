@@ -19,7 +19,7 @@ class LoginControllers(MethodView):
             password_db = bytes(respuesta[0][4], 'utf-8')
             nombre = respuesta[0][1]
             if bcrypt.checkpw(password, password_db):
-                encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=10000), 'email': respuesta[0][2], 'nombre': respuesta[0][1], 'rango': respuesta[0][3]} , KEY_TOKEN_AUTH , algorithm='HS256')
+                encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24), 'email': respuesta[0][2], 'nombre': respuesta[0][1], 'rango': respuesta[0][3]} , KEY_TOKEN_AUTH , algorithm='HS256')
                 return jsonify({"Status": "Login exitoso", "token": str(encoded_jwt), "nombre": respuesta[0][1], "rango": respuesta[0][3]}), 200     
             return jsonify({"Status": "Login incorrecto 22"}), 400
         return jsonify({"Status": "Login incorrecto 11"}), 400
