@@ -23,7 +23,7 @@ def enviaremail(email,code,name):
                 <div>
                     <p style=" font-size: 18px; font-weight: bold; color: black; font-family: 'Roboto', sans-serif;">Lorem ipsum dolor sit amet <span style="color: red;">{name}</span> consectetur adipisicing elit. Temporibus laudantium ipsa dolor nisi eos repellat, neque saepe sapiente nemo a, illo hic id aperiam amet quam mollitia esse perspiciatis fugit.</p>
                     <br>
-                    <a href="http://localhost:4200/recover-pass/{code}" style="text-decoration: none; font-size: 23px; font-weight: 600; padding: 10px 20px; color: #FFF; background-color: rgb(44, 93, 255); border: 2px solid #0016b0; font-family: 'Chango', cursive;">Boton</a>
+                    <a href="http://localhost:4200/recover-pass/{code}" style="text-decoration: none; font-size: 23px; font-weight: 600; padding: 10px 20px; color: #FFF; background-color: rgb(44, 93, 255); border: 2px solid #0016b0; font-family: 'Chango', cursive;">Recuperar</a>
                 </div>
             </td>
         </tr>
